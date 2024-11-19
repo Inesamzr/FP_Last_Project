@@ -4,6 +4,7 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import com.mongodb.client.{MongoClients, MongoCollection, MongoDatabase}
 import org.bson.Document
+import org.neo4j.driver.{AuthTokens, GraphDatabase, Session}
 import scala.jdk.CollectionConverters._
 
 object Main {
@@ -22,9 +23,12 @@ object Main {
     val filesPath = "src/main/resources/json_files"
     val outputDir = "./extracted_json_files"
     val outputFile = "./filtered_cves.json"
-    val mongoUri = "mongodb+srv://inesamzert:lk4cqQY79zWqFD6d@cluster0.vg9d5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    val mongoUri = "mongodb+srv://<username>:<password>@cluster0.vg9d5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     val databaseName = "CVE_Database"
     val collectionName = "CVE_Collection"
+    val neo4jUri = "bolt://localhost:7687"
+    val neo4jUsername = "neo4j"
+    val neo4jPassword = "password"
 
     val directory = new File(filesPath)
     if (!directory.exists || !directory.isDirectory) {
@@ -95,5 +99,44 @@ object Main {
       collection.insertOne(document)
     }
     println("Les CVEs ont été sauvegardés dans MongoDB.")
+
+    // Sauvegarder les données dans Neo4j
+    val neo4jDriver = GraphDatabase.driver(neo4jUri, AuthTokens.basic(neo4jUsername, neo4jPassword))
+    val session = neo4jDriver.session()
+
+    cveList.foreach { cve =>
+      val query =
+        """
+          |MERGE (c:CVE {ID: $id})
+          |SET c.Description = $description,
+          |    c.baseScore = $baseScore,
+          |    c.baseSeverity = $baseSeverity,
+          |    c.exploitabilityScore = $exploitabilityScore,
+          |    c.impactScore = $impactScore
+          """.stripMargin
+
+      session.run(query, Map(
+        "id" -> cve.ID,
+        "description" -> cve.Description,
+        "baseScore" -> cve.baseScore.asInstanceOf[AnyRef],
+        "baseSeverity" -> cve.baseSeverity,
+        "exploitabilityScore" -> cve.exploitabilityScore.map(_.asInstanceOf[AnyRef]).orNull,
+        "impactScore" -> cve.impactScore.map(_.asInstanceOf[AnyRef]).orNull
+      ).asJava)
+    }
+
+    println("Les CVEs ont été sauvegardés dans Neo4j.")
+
+    // Récupérer les données depuis Neo4j
+    val result = session.run("MATCH (c:CVE) RETURN c.ID AS ID, c.Description AS Description, c.baseScore AS baseScore")
+    while (result.hasNext) {
+      val record = result.next()
+      println(s"ID: ${record.get("ID").asString()}, Description: ${record.get("Description").asString()}, baseScore: ${record.get("baseScore").asDouble()}")
+    }
+
+    // Fermer les connexions
+    session.close()
+    neo4jDriver.close()
+    client.close()
   }
 }
