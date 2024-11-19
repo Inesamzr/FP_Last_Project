@@ -1,0 +1,17 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/ubuntu/Bureau/mini_project/target/scala-2.13/mini_project_2.13-1.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$CVE$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/Main$CVE$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	json_files[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/json_files[0m
+[0m[[0m[0mdebug[0m] [0m[0m	json_files/nvdcve-1.1-2024.json.zip[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/json_files/nvdcve-1.1-2024.json.zip[0m
+[0m[[0m[0mdebug[0m] [0m[0m	json_files/nvdcve-1.1-2023.json.zip[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/json_files/nvdcve-1.1-2023.json.zip[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/Main.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$CVE.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/Main$CVE.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/ubuntu/Bureau/mini_project/target/scala-2.13/classes/Main$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m
